@@ -2,14 +2,15 @@ spring:
   application:
     name: smart-campus-api
   datasource:
-    url: jdbc:mysql://localhost:3306/smart_campus?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: Gimantha
+    url: ${DB_URL:jdbc:mysql://metro.proxy.rlwy.net:27165/railway?createDatabaseIfNotExist=true&useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:idIPIyQrQJMquWRPrXxuqORRfNqhlQSf}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
+    open-in-view: false
     database-platform: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
@@ -25,19 +26,15 @@ spring:
       client:
         registration:
           google:
-            client-id: YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com
-            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+            client-id: ${GOOGLE_CLIENT_ID:331988885568-jg489jsq8idnvgpokrdfkqq3ms5cpbns.apps.googleusercontent.com}
+            client-secret: ${GOOGLE_CLIENT_SECRET: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}
             scope: openid, profile, email
           microsoft:
-            client-id: YOUR_MICROSOFT_CLIENT_ID
-            client-secret: YOUR_MICROSOFT_CLIENT_SECRET
+            client-id: ${MICROSOFT_CLIENT_ID:2746f6f2-243d-48ec-9bfa-2d59d7e9c5fd}
+            client-secret: ${MICROSOFT_CLIENT_SECRET:cc3ef75a-1479-45f7-9521-7acd6aa25a96}
             scope: openid, profile, email, User.Read
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-          facebook:
-            client-id: YOUR_FACEBOOK_APP_ID
-            client-secret: YOUR_FACEBOOK_APP_SECRET
-            scope: email, public_profile
         provider:
           microsoft:
             authorization-uri: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
@@ -45,14 +42,27 @@ spring:
             jwk-set-uri: https://login.microsoftonline.com/common/discovery/v2.0/keys
             user-info-uri: https://graph.microsoft.com/oidc/userinfo
             user-name-attribute: sub
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:gimanthagunasekara908@gmail.com}
+    password: ${MAIL_PASSWORD:rsvumsobdgaejjna}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: false
 app:
   jwt:
-    secret: mySecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong2025
+    secret: ${JWT_SECRET:mySecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong2025}
     expiration-ms: 86400000
   upload:
-    dir: ./uploads/tickets
+    dir: ${UPLOAD_DIR:./uploads/tickets}
   cors:
-    allowed-origins: http://localhost:5173,http://localhost:3000
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
 logging:
   level:
     com.sliit.smartcampus: INFO
