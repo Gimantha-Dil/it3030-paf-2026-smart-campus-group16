@@ -60,7 +60,7 @@ public class EmailService {
         + "</table></td></tr></table></body></html>";
   }
 
-  // ── 1. Welcome Email ─────────────────────────────────────────
+  // 1. Welcome Email
   @Async("emailExecutor")
   public void sendWelcomeEmail(String to, String name, String role) {
     String roleMsg;
@@ -95,7 +95,7 @@ public class EmailService {
     sendHtmlEmail(to, "Welcome to Smart Campus Hub", body);
   }
 
-  // ── 2. Ticket Assignment Email ────────────────────────────────
+  // 2. Ticket Assignment Email
   @Async("emailExecutor")
   public void sendTicketAssignmentEmail(String to, String techName, Long ticketId, String ticketTitle,
       String assignedBy) {
@@ -117,7 +117,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Ticket #" + ticketId + " Assigned to You", body);
   }
 
-  // ── 3. Booking Approved Email ─────────────────────────────────
+  // 3. Booking Approved Email
   @Async("emailExecutor")
   public void sendBookingApprovedEmail(String to, String name, Long bookingId,
       String resourceName, String startTime, String endTime) {
@@ -139,7 +139,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Booking Approved", body);
   }
 
-  // ── 4. Booking Rejected Email ─────────────────────────────────
+  // 4. Booking Rejected Email
   @Async("emailExecutor")
   public void sendBookingRejectedEmail(String to, String name, Long bookingId,
       String resourceName, String reason) {
@@ -162,7 +162,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Booking Request Rejected", body);
   }
 
-  // ── 5. Staff Approved Email ───────────────────────────────────
+  // 5. Staff Approved Email
   @Async("emailExecutor")
   public void sendStaffApprovedEmail(String to, String name, String role) {
     String roleLabel = switch (role) {
@@ -187,7 +187,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Staff Role Approved", body);
   }
 
-  // ── 6. Staff Rejected Email ───────────────────────────────────
+  // 6. Staff Rejected Email
   @Async("emailExecutor")
   public void sendStaffRejectedEmail(String to, String name, String requestedRole) {
     String roleLabel = switch (requestedRole) {
@@ -208,7 +208,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Staff Role Request Rejected", body);
   }
 
-  // ── 7. Password Reset Email ───────────────────────────────────
+  // 7. Password Reset Email
   @Async("emailExecutor")
   public void sendPasswordResetEmail(String to, String name, String token, String frontendUrl) {
     String resetUrl = frontendUrl + "/reset-password?token=" + token;
@@ -229,7 +229,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Password Reset", body);
   }
 
-  // ── 8. OAuth Account Info Email ───────────────────────────────
+  // 8. OAuth Account Info Email
   @Async("emailExecutor")
   public void sendOAuthAccountEmail(String to, String name) {
     String body = "<h2 style='color:#1a1a1a;font-size:20px;margin:0 0 8px'>&#128273; Password Reset Info</h2>"
