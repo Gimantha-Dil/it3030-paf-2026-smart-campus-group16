@@ -59,37 +59,91 @@ export default function Sidebar({ open, onClose }) {
         items = technicianItems;
     }
 return (
-  <aside
-    onMouseEnter={() => setHovered(true)}
-    onMouseLeave={() => setHovered(false)}
-    className="w-16 hover:w-64 bg-white h-screen transition-all duration-300"
+  <>
+    {/* DESKTOP sidebar */}
+    <aside
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="hidden lg:flex flex-col w-16 hover:w-64 bg-white h-screen transition-all duration-300"
     >
-
-
-    {isAdmin && (
-  <div className="mt-4">
-    {adminItems.map(item => (
-      <NavLink
-        key={item.path}
-        to={item.path}
-        className="flex items-center gap-3 p-2 hover:bg-gray-100"
-      >
-        {item.icon}
-        {hovered && <span>{item.label}</span>}
-      </NavLink>
-    ))}
-  </div>
-)}
-    {items.map(item => (
-    <NavLink
-         key={item.path}
-         to={item.path}
-         className="flex items-center gap-3 p-2 hover:bg-gray-100"
+      {items.map(item => (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          className="flex items-center gap-3 p-2 hover:bg-gray-100"
         >
-         {item.icon}
-         {hovered && <span>{item.label}</span>}
-    </NavLink>
-    ))}
-  </aside>
+          {item.icon}
+          {hovered && <span>{item.label}</span>}
+        </NavLink>
+      ))}
+
+      {isAdmin && (
+        <div className="mt-4">
+          {adminItems.map(item => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className="flex items-center gap-3 p-2 hover:bg-gray-100"
+            >
+              {item.icon}
+              {hovered && <span>{item.label}</span>}
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </aside>
+
+    {/* MOBILE sidebar */}
+    <aside
+      className={`
+        lg:hidden
+        fixed left-0 top-0 h-full w-64
+        bg-white
+        border-r
+        overflow-y-auto z-40
+        transition-transform duration-300
+        ${open ? 'translate-x-0' : '-translate-x-full'}
+      `}
+    >
+      {items.map(item => (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          onClick={onClose}
+          className="flex items-center gap-3 p-3 hover:bg-gray-100"
+        >
+          {item.icon}
+          <span>{item.label}</span>
+        </NavLink>
+      ))}
+
+      {isAdmin && (
+        <div className="mt-4">
+          {adminItems.map(item => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={onClose}
+              className="flex items-center gap-3 p-3 hover:bg-gray-100"
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </aside>
+
+    {/* OVERLAY */}
+    {open && (
+      <div
+        className="lg:hidden fixed inset-0 bg-black/20 z-30"
+        onClick={onClose}
+      />
+    )}
+  </>
 );
+
+
+
 }
