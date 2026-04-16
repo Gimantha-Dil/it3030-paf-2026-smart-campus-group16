@@ -47,103 +47,166 @@ const adminItems = [
 ];
 
 export default function Sidebar({ open, onClose }) {
-    const user = { role: 'USER' };
-    const [hovered, setHovered] = useState(false);
+  const { user } = useAuth();
+  const [hovered, setHovered] = useState(false);
 
-    const isTechnician = user.role === 'TECHNICIAN';
-    const isAdmin = user.role === 'ADMIN';
+  const isTechnician = user?.role === 'TECHNICIAN';
+  const items = isTechnician ? technicianItems : navItems;
 
-    let items = navItems;
+  // Sidebar is "expanded" when: mobile (open=true always expands) OR desktop + hovered
+  const expanded = open ? hovered || true : false;
+  // On desktop: sidebar always visible as mini (icons only), expands on hover
+  // On mobile:  sidebar hidden until open=true, then fully expanded (no mini state)
 
-    if (isTechnician) {
-        items = technicianItems;
-    }
-return (
-  <>
-    {/* DESKTOP sidebar */}
-    <aside
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="hidden lg:flex flex-col w-16 hover:w-64 bg-white h-screen transition-all duration-300"
-    >
-      {items.map(item => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          className="flex items-center gap-3 p-2 hover:bg-gray-100"
-        >
-          {item.icon}
-          {hovered && <span>{item.label}</span>}
-        </NavLink>
-      ))}
+  // Desktop mini width = 64px (w-16), expanded = 256px (w-64)
+  const linkClass = ({ isActive }) =>
+    `flex items-center gap-3 rounded-lg text-sm transition-all duration-200 overflow-hidden whitespace-nowrap ${
+      hovered ? 'px-3 py-2.5' : 'px-2.5 py-2.5 justify-center'
+    } ${
+      isActive
+        ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300 font-medium'
+        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+    }`;
 
-      {isAdmin && (
-        <div className="mt-4">
-          {adminItems.map(item => (
+  return (
+    <>
+      {/* ── DESKTOP sidebar — always visible, mini by default, expands on hover ── */}
+      <aside
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className={`
+          hidden lg:flex flex-col
+          fixed left-0 top-16 bottom-0
+          bg-white dark:bg-gray-900
+          border-r border-gray-200 dark:border-gray-700
+          overflow-y-auto overflow-x-hidden
+          z-40 transition-all duration-250 ease-in-out
+          ${hovered ? 'w-64 px-3 shadow-lg' : 'w-16 px-2'}
+          pt-3 pb-4
+        `}
+      >
+
+        {/* Technician badge */}
+        {isTechnician && (
+          <div className={`mb-3 py-2 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800 flex items-center gap-2 overflow-hidden ${hovered ? 'px-3' : 'px-2 justify-center'}`}>
+            {Icons.wrench}
+            {hovered && <p className="text-xs font-semibold text-primary-600 dark:text-primary-300 uppercase tracking-wider">Technician</p>}
+          </div>
+        )}
+
+        {/* Nav items */}
+        <div className="space-y-0.5 flex-1">
+          {items.map(item => (
             <NavLink
               key={item.path}
               to={item.path}
-              className="flex items-center gap-3 p-2 hover:bg-gray-100"
+              end={item.path === '/dashboard'}
+              title={!hovered ? item.label : undefined}
+              className={linkClass}
             >
               {item.icon}
-              {hovered && <span>{item.label}</span>}
+              {hovered && <span className="transition-opacity duration-150">{item.label}</span>}
             </NavLink>
           ))}
         </div>
-      )}
-    </aside>
 
-    {/* MOBILE sidebar */}
-    <aside
-      className={`
-        lg:hidden
-        fixed left-0 top-0 h-full w-64
-        bg-white
-        border-r
-        overflow-y-auto z-40
-        transition-transform duration-300
-        ${open ? 'translate-x-0' : '-translate-x-full'}
-      `}
-    >
-      {items.map(item => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          onClick={onClose}
-          className="flex items-center gap-3 p-3 hover:bg-gray-100"
-        >
-          {item.icon}
-          <span>{item.label}</span>
-        </NavLink>
-      ))}
+        {/* Admin section */}
+        {user?.role === 'ADMIN' && (
+          <>
+            <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
+            {hovered && (
+              <p className="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Admin</p>
+            )}
+            <div className="space-y-0.5">
+              {adminItems.map(item => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  title={!hovered ? item.label : undefined}
+                  className={linkClass}
+                >
+                  {item.icon}
+                  {hovered && <span className="transition-opacity duration-150">{item.label}</span>}
+                </NavLink>
+              ))}
+            </div>
+          </>
+        )}
+      </aside>        
 
-      {isAdmin && (
-        <div className="mt-4">
-          {adminItems.map(item => (
+
+      {/* ── MOBILE sidebar — slide in/out overlay ── */}
+      <aside
+        className={`
+          lg:hidden
+          fixed left-0 top-16 bottom-0 w-64
+          bg-white dark:bg-gray-900
+          border-r border-gray-200 dark:border-gray-700
+          px-3 pt-3 pb-4
+          overflow-y-auto z-40
+          transition-transform duration-300
+          ${open ? 'translate-x-0' : '-translate-x-full'}
+        `}
+      >
+        {isTechnician && (
+          <div className="mb-3 px-3 py-2 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800 flex items-center gap-2">
+            {Icons.wrench}
+            <p className="text-xs font-semibold text-primary-600 dark:text-primary-300 uppercase tracking-wider">Technician</p>
+          </div>
+        )}
+
+        <div className="space-y-0.5">
+          {items.map(item => (
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.path === '/dashboard'}
               onClick={onClose}
-              className="flex items-center gap-3 p-3 hover:bg-gray-100"
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                  isActive
+                    ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300 font-medium'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                }`
+              }
             >
               {item.icon}
               <span>{item.label}</span>
             </NavLink>
           ))}
         </div>
+
+        {user?.role === 'ADMIN' && (
+          <>
+            <div className="border-t border-gray-200 dark:border-gray-700 my-4" />
+            <p className="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Admin</p>
+            <div className="space-y-0.5">
+              {adminItems.map(item => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                      isActive
+                        ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300 font-medium'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`
+                  }
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </NavLink>
+              ))}
+            </div>
+          </>
+        )}
+      </aside>
+
+      {/* Mobile overlay backdrop */}
+      {open && (
+        <div className="lg:hidden fixed inset-0 bg-black/20 z-30" onClick={onClose} />
       )}
-    </aside>
-
-    {/* OVERLAY */}
-    {open && (
-      <div
-        className="lg:hidden fixed inset-0 bg-black/20 z-30"
-        onClick={onClose}
-      />
-    )}
-  </>
-);
-
-
-
+    </>
+  );
 }
