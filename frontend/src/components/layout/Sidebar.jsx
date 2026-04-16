@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth'; 
 
 const Icon = ({ d, d2, viewBox = "0 0 24 24", fill = false }) => (
   <svg className="w-5 h-5 flex-shrink-0" fill={fill ? "currentColor" : "none"} stroke={fill ? "none" : "currentColor"}
