@@ -33,8 +33,12 @@ const navItems = [
 ];
 
 export default function Sidebar({ open, onClose }) {
+    const [hovered, setHovered] = useState(false);
 return (
-  <aside>
+  <aside
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
+    >
     {navItems.map(item => (
       <NavLink key={item.path} to={item.path}>
         {item.icon}
