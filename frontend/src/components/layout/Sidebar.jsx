@@ -38,12 +38,17 @@ return (
   <aside
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
+    className="w-16 hover:w-64 bg-white h-screen transition-all duration-300"
     >
     {navItems.map(item => (
-      <NavLink key={item.path} to={item.path}>
-        {item.icon}
-        <span>{item.label}</span>
-      </NavLink>
+    <NavLink
+         key={item.path}
+         to={item.path}
+         className="flex items-center gap-3 p-2 hover:bg-gray-100"
+        >
+         {item.icon}
+         {hovered && <span>{item.label}</span>}
+    </NavLink>
     ))}
   </aside>
 );
