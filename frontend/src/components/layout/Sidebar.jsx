@@ -33,9 +33,14 @@ const navItems = [
 ];
 
 export default function Sidebar({ open, onClose }) {
-  return (
-    <aside>
-      <p>Sidebar</p>
-    </aside>
-  );
+return (
+  <aside>
+    {navItems.map(item => (
+      <NavLink key={item.path} to={item.path}>
+        {item.icon}
+        <span>{item.label}</span>
+      </NavLink>
+    ))}
+  </aside>
+);
 }
