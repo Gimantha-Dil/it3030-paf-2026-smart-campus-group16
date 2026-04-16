@@ -32,15 +32,39 @@ const navItems = [
   { path: '/profile',            label: 'My Profile',    icon: Icons.profile },
 ];
 
+const technicianItems = [
+  { path: '/dashboard',     label: 'Dashboard',     icon: Icons.dashboard },
+  { path: '/tickets',       label: 'My Tickets',    icon: Icons.tickets },
+  { path: '/notifications', label: 'Notifications', icon: Icons.notifications },
+  { path: '/profile',       label: 'My Profile',    icon: Icons.profile },
+];
+
+const adminItems = [
+  { path: '/admin/resources/new',   label: 'Add Resource',    icon: Icons.addResource },
+  { path: '/admin/bookings/review', label: 'Review Bookings', icon: Icons.reviewBooking },
+  { path: '/admin/users',           label: 'User Management', icon: Icons.users },
+  { path: '/admin/analytics',       label: 'Analytics',       icon: Icons.analytics },
+];
+
 export default function Sidebar({ open, onClose }) {
+    const user = { role: 'USER' };
     const [hovered, setHovered] = useState(false);
+
+    const isTechnician = user.role === 'TECHNICIAN';
+    const isAdmin = user.role === 'ADMIN';
+
+    let items = navItems;
+
+    if (isTechnician) {
+        items = technicianItems;
+    }
 return (
   <aside
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     className="w-16 hover:w-64 bg-white h-screen transition-all duration-300"
     >
-    {navItems.map(item => (
+    {items.map(item => (
     <NavLink
          key={item.path}
          to={item.path}
