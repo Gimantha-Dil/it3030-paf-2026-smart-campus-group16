@@ -59,7 +59,7 @@ function ServiceTimer({ ticket }) {
   return (
     <div className={`rounded-xl p-4 border ${breached ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700' : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-700'} mb-4`}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">⏱ Service Level Timer</span>
+        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Service Level Timer</span>
         <span className={`font-mono text-lg font-bold ${breached ? 'text-red-600' : 'text-amber-600'}`}>
           {fmt(h)}:{fmt(m)}:{fmt(s)}
         </span>
