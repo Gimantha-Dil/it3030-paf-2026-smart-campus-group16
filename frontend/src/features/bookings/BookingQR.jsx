@@ -2,6 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { formatDateTime } from '../../utils/dateUtils';
 
+import { getBookingById } from '../../api/bookingApi';
+import { toast } from 'react-toastify';
+import LoadingSpinner from '../../components/common/LoadingSpinner';//BookingQR.jsx
+
+
 export default function BookingQR() {
   const { id } = useParams();
   const [booking, setBooking] = useState(null);
