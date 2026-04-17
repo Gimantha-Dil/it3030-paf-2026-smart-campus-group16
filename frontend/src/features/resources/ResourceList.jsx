@@ -112,7 +112,7 @@ export default function ResourceList() {
                 <StatusBadge status={r.status} />
               </div>
               <div className="text-sm text-gray-600 space-y-1 mb-4">
-                <p>📍 {r.location}</p>
+                <p> {r.location}</p>
                 {r.capacity && <p>👥 Capacity: {r.capacity}</p>}
                 {r.availabilityStart && <p>🕐 {r.availabilityStart} – {r.availabilityEnd}</p>}
                 {r.description && <p className="text-gray-400 text-xs truncate">{r.description}</p>}
