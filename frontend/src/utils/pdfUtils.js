@@ -268,5 +268,5 @@ export function exportActivityPDF(activities) {
 
 }
 
-}
+
 
