@@ -241,13 +241,10 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer style={{ background: '#0F172A', color: '#94A3B8', padding: '40px 5%' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'linear-gradient(135deg, #0ab5d6, #0a4a57)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#fff', fontWeight: 800, fontSize: '14px' }}>SC</span>
-            </div>
-            <span style={{ color: 'white', fontWeight: 600, fontSize: '15px' }}>Smart Campus Hub</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>            
+            <span style={{ color: 'white', fontWeight: 600, fontSize: '15px' }}>Smart Campus</span>
           </div>
-          <div style={{ fontSize: '13px' }}>2026 Smart Campus Hub — SLIIT IT3030 Group Project</div>
+          <div style={{ fontSize: '13px' }}>2026 Smart Campus</div>
           <div style={{ display: 'flex', gap: '24px' }}>
             {['Privacy', 'Terms', 'Contact'].map(l => (
               <a key={l} href="#" style={{ color: '#64748B', textDecoration: 'none', fontSize: '13px' }}
