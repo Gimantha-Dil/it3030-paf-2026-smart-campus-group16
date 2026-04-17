@@ -58,7 +58,7 @@ export default function ProfilePage() {
     } finally { setDeleteLoading(false); }
   };
 
-  // Block non-letter keys for name field
+  // Block non-letter keys 
   const handleNameKey = (e) => {
     const allowed = /^[a-zA-Z\s'\-]$/;
     const ctrl = e.ctrlKey || e.metaKey;
@@ -207,7 +207,7 @@ export default function ProfilePage() {
                 className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 ${
                   confirmPw && newPw !== confirmPw ? 'border-red-400 dark:border-red-500' : 'dark:border-gray-600'}`} />
               {confirmPw && newPw !== confirmPw && <p className="text-red-500 text-xs mt-1">Passwords do not match</p>}
-              {confirmPw && newPw === confirmPw && newPw && <p className="text-green-600 text-xs mt-1">✓ Passwords match</p>}
+              {confirmPw && newPw === confirmPw && newPw && <p className="text-green-600 text-xs mt-1">Passwords match</p>}
             </div>
             <button onClick={handleChangePassword} disabled={saving}
               className="w-full py-2.5 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors">
@@ -307,7 +307,7 @@ export default function ProfilePage() {
 
             {/* Danger Zone */}
             <div className="mt-6 border border-red-200 dark:border-red-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-1">Danger Zone</h3>
+              <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-1">Delete Your Account safely</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                 Permanently delete your account and all associated data. This action cannot be undone.
               </p>
@@ -318,7 +318,7 @@ export default function ProfilePage() {
                 </button>
               ) : (
                 <div className="space-y-3">
-                  <p className="text-xs text-red-600 font-medium">Are you sure? This action cannot be undone.</p>
+                  <p className="text-xs text-red-600 font-medium">Are you sure? Your account and all data cannot be undone.</p>
                   <div className="flex gap-2">
                     <button onClick={() => setShowDeleteConfirm(false)}
                       className="flex-1 py-2 border border-gray-300 text-gray-600 dark:text-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">

@@ -60,7 +60,7 @@ public class EmailService {
         + "</table></td></tr></table></body></html>";
   }
 
-  // 1. Welcome Email
+  // ── 1. Welcome Email ─────────────────────────────────────────
   @Async("emailExecutor")
   public void sendWelcomeEmail(String to, String name, String role) {
     String roleMsg;
@@ -95,7 +95,7 @@ public class EmailService {
     sendHtmlEmail(to, "Welcome to Smart Campus Hub", body);
   }
 
-  // 2. Ticket Assignment Email
+  // ── 2. Ticket Assignment Email ────────────────────────────────
   @Async("emailExecutor")
   public void sendTicketAssignmentEmail(String to, String techName, Long ticketId, String ticketTitle,
       String assignedBy) {
@@ -117,7 +117,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Ticket #" + ticketId + " Assigned to You", body);
   }
 
-  // 3. Booking Approved Email
+  // ── 3. Booking Approved Email ─────────────────────────────────
   @Async("emailExecutor")
   public void sendBookingApprovedEmail(String to, String name, Long bookingId,
       String resourceName, String startTime, String endTime) {
@@ -139,7 +139,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Booking Approved", body);
   }
 
-  // 4. Booking Rejected Email
+  // ── 4. Booking Rejected Email ─────────────────────────────────
   @Async("emailExecutor")
   public void sendBookingRejectedEmail(String to, String name, Long bookingId,
       String resourceName, String reason) {
@@ -162,7 +162,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Booking Request Rejected", body);
   }
 
-  // 5. Staff Approved Email
+  // ── 5. Staff Approved Email ───────────────────────────────────
   @Async("emailExecutor")
   public void sendStaffApprovedEmail(String to, String name, String role) {
     String roleLabel = switch (role) {
@@ -187,7 +187,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Staff Role Approved", body);
   }
 
-  // 6. Staff Rejected Email
+  // ── 6. Staff Rejected Email ───────────────────────────────────
   @Async("emailExecutor")
   public void sendStaffRejectedEmail(String to, String name, String requestedRole) {
     String roleLabel = switch (requestedRole) {
@@ -208,7 +208,7 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Staff Role Request Rejected", body);
   }
 
-  // 7. Password Reset Email
+  // ── 7. Password Reset Email ───────────────────────────────────
   @Async("emailExecutor")
   public void sendPasswordResetEmail(String to, String name, String token, String frontendUrl) {
     String resetUrl = frontendUrl + "/reset-password?token=" + token;
@@ -229,7 +229,54 @@ public class EmailService {
     sendHtmlEmail(to, "Smart Campus Hub - Password Reset", body);
   }
 
-  // 8. OAuth Account Info Email
+  // ── 8. Booking Received Email ─────────────────────────────────
+  @Async("emailExecutor")
+  public void sendBookingReceivedEmail(String to, String name, Long bookingId,
+      String resourceName, String startTime, String endTime) {
+    String body = "<h2 style='color:#1a1a1a;font-size:20px;margin:0 0 8px'>Booking Request Received</h2>"
+        + "<p style='color:#6b7280;font-size:14px;margin:0 0 20px'>Hi <strong>" + name + "</strong>, "
+        + "your booking request has been received and is <strong style='color:#d97706'>pending approval</strong>.</p>"
+        + "<div style='background:#f0fdfa;border-radius:8px;padding:16px;border-left:4px solid #0f766e;margin:16px 0'>"
+        + "<p style='margin:0 0 8px;font-size:13px;color:#374151'>Resource: <strong>" + resourceName + "</strong></p>"
+        + "<p style='margin:0 0 8px;font-size:13px;color:#374151'>From: <strong>" + startTime + "</strong></p>"
+        + "<p style='margin:0;font-size:13px;color:#374151'>To: <strong>" + endTime + "</strong></p>"
+        + "</div>"
+        + "<p style='color:#6b7280;font-size:13px'>You will be notified once an admin reviews your request.</p>"
+        + "<div style='text-align:center;margin:24px 0'>"
+        + "<a href='http://localhost:5173/bookings' "
+        + "style='background:#0f766e;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;display:inline-block'>"
+        + "View My Bookings &rarr;</a></div>";
+    sendHtmlEmail(to, "Smart Campus Hub - Booking Request Received", body);
+  }
+
+  // ── 9. Ticket Status Update Email ─────────────────────────────
+  @Async("emailExecutor")
+  public void sendTicketStatusUpdateEmail(String to, String name, Long ticketId,
+      String ticketTitle, String newStatus, String notes) {
+    boolean resolved = newStatus.equalsIgnoreCase("RESOLVED");
+    boolean rejected = newStatus.equalsIgnoreCase("REJECTED");
+    String headerColor = resolved ? "#065f46" : rejected ? "#991b1b" : "#1a1a1a";
+    String header = resolved ? "Ticket Resolved" : rejected ? "Ticket Rejected" : "Ticket Status Updated";
+    String body = "<h2 style='color:" + headerColor + ";font-size:20px;margin:0 0 8px'>" + header + "</h2>"
+        + "<p style='color:#6b7280;font-size:14px;margin:0 0 20px'>Hi <strong>" + name + "</strong>, "
+        + "your ticket status has been updated.</p>"
+        + "<div style='background:#f0fdfa;border-radius:8px;padding:16px;border-left:4px solid #0f766e;margin:16px 0'>"
+        + "<p style='margin:0 0 8px;font-size:13px;color:#374151'>Ticket #" + ticketId + ": <strong>" + ticketTitle
+        + "</strong></p>"
+        + "<p style='margin:0;font-size:13px;color:#374151'>New Status: <strong style='color:" + headerColor + "'>"
+        + newStatus + "</strong></p>"
+        + (notes != null && !notes.isBlank()
+            ? "<p style='margin:8px 0 0;font-size:13px;color:#374151'>Notes: " + notes + "</p>"
+            : "")
+        + "</div>"
+        + "<div style='text-align:center;margin:24px 0'>"
+        + "<a href='http://localhost:5173/tickets/" + ticketId + "' "
+        + "style='background:#0f766e;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;display:inline-block'>"
+        + "View Ticket &rarr;</a></div>";
+    sendHtmlEmail(to, "Smart Campus Hub - Ticket #" + ticketId + " Status Updated", body);
+  }
+
+  // ── 10. OAuth Account Info Email ───────────────────────────────
   @Async("emailExecutor")
   public void sendOAuthAccountEmail(String to, String name) {
     String body = "<h2 style='color:#1a1a1a;font-size:20px;margin:0 0 8px'>&#128273; Password Reset Info</h2>"
