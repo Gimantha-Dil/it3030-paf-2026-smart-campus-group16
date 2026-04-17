@@ -8,12 +8,11 @@ const ROLES = ['USER', 'ADMIN', 'TECHNICIAN', 'LECTURER', 'LAB_ASSISTANT'];
 const EDIT_ROLES = ['USER', 'ADMIN', 'TECHNICIAN', 'LECTURER', 'LAB_ASSISTANT'];
 const ROLE_COLORS = {
   ADMIN: 'bg-red-100 text-red-700',
-  TECHNICIAN: 'bg-blue-100 text-blue-700',
-  USER: 'bg-gray-100 text-gray-700',
+  TECHNICIAN: 'bg-teal-100 text-teal-700',
+  USER: 'bg-teal-100 text-teal-700',
   PENDING_STAFF: 'bg-orange-100 text-orange-700',
-  LECTURER: 'bg-purple-100 text-purple-700',
+  LECTURER: 'bg-teal-100 text-teal-700',
   LAB_ASSISTANT: 'bg-teal-100 text-teal-700',
-  STUDENT: 'bg-gray-100 text-gray-600',
 };
 
 // Add User Modal

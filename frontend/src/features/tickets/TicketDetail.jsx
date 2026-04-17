@@ -24,7 +24,7 @@ function AttachmentThumb({ url, fileName, isImage, isPdf }) {
             onError={() => setImgError(true)}
           />
         ) : (
-          <span className="text-3xl">{isPdf ? '📄' : '📎'}</span>
+          <span className="text-3xl">{isPdf ? '' : ''}</span>
         )}
       </div>
       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate w-28 text-center">{fileName}</p>
@@ -206,7 +206,7 @@ export default function TicketDetail() {
         {/* Resolution Notes */}
         {ticket.resolutionNotes && (
           <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-xs font-semibold text-green-700 mb-1">✅ Resolution Notes</p>
+            <p className="text-xs font-semibold text-green-700 mb-1"> Resolution Notes</p>
             <p className="text-sm text-green-800">{ticket.resolutionNotes}</p>
           </div>
         )}
@@ -214,7 +214,7 @@ export default function TicketDetail() {
         {/* Rejection Reason */}
         {ticket.rejectionReason && (
           <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-xs font-semibold text-red-700 mb-1">❌ Rejection Reason</p>
+            <p className="text-xs font-semibold text-red-700 mb-1"> Rejection Reason</p>
             <p className="text-sm text-red-800">{ticket.rejectionReason}</p>
           </div>
         )}
