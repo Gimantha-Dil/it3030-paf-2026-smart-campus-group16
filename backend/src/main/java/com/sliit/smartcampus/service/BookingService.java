@@ -147,7 +147,17 @@ public class BookingService {
                 .purpose(dto.getPurpose()).attendees(dto.getAttendees())
                 .status(BookingStatus.PENDING).build();
 
-        return mapper.toBookingDTO(Objects.requireNonNull(bookingRepository.save(booking)));
+        Booking saved = Objects.requireNonNull(bookingRepository.save(booking));
+
+        // Send booking received confirmation email to user
+        String fmt = "MMM d, yyyy hh:mm a";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(fmt);
+        emailService.sendBookingReceivedEmail(
+                currentUser.getEmail(), currentUser.getName(),
+                saved.getId(), resource.getName(),
+                saved.getStartTime().format(dtf), saved.getEndTime().format(dtf));
+
+        return mapper.toBookingDTO(saved);
     }
 
     @Transactional
