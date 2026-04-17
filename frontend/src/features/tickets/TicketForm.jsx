@@ -146,7 +146,7 @@ export default function TicketForm() {
           <div className="flex justify-between items-center mt-1">
             {showError('title')
               ? <p className="text-red-500 text-xs"> {errors.title}</p>
-              : titleLen >= 5 ? <p className="text-green-600 text-xs">✓ Good title</p>
+              : titleLen >= 5 ? <p className="text-green-600 text-xs"> Good title</p>
               : <span className="text-gray-400 text-xs">Min. 5 characters</span>}
             <span className={`text-xs ${titleLen > 130 ? 'text-orange-500' : 'text-gray-400'}`}>{titleLen}/150</span>
           </div>
