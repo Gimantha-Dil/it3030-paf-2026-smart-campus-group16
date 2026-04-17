@@ -168,3 +168,99 @@ function statusBadge(status) {
   return `<span class="badge ${map[status] || 'badge-gray'}">${(status || '').replace(/_/g,' ')}</span>`;
 }
 
+// ── Bookings PDF ─────────────────────────────────────────────────
+export function exportBookingsPDF(bookings, title = 'Bookings') {
+  const total = bookings.length;
+  const approved = bookings.filter(b => b.status === 'APPROVED').length;
+  const pending  = bookings.filter(b => b.status === 'PENDING').length;
+
+  const rows = bookings.map((b, i) => `
+    <tr>
+      <td style="color:#6b7280;font-size:10px">${i + 1}</td>
+      <td><strong>${b.resource?.name || ''}</strong><small>📍 ${b.resource?.location || ''}</small></td>
+      <td>${b.startTime ? new Date(b.startTime).toLocaleString('en-GB') : ''}
+          <small>→ ${b.endTime ? new Date(b.endTime).toLocaleString('en-GB') : ''}</small></td>
+      <td style="max-width:180px">${b.purpose || ''}</td>
+      <td>${b.user?.name || ''}<small>${b.user?.email || ''}</small></td>
+      <td>${statusBadge(b.status)}</td>
+    </tr>
+  `).join('');
+
+  const html = `
+    <!-- Summary row -->
+    <div style="display:flex;gap:12px;margin-bottom:20px">
+      <div style="flex:1;background:#f0fdfe;border-radius:8px;padding:12px 16px;border-left:4px solid #0ab5d6">
+        <div style="font-size:11px;color:#6b7280">Total</div>
+        <div style="font-size:22px;font-weight:700;color:#0a4a57">${total}</div>
+      </div>
+      <div style="flex:1;background:#d1fae5;border-radius:8px;padding:12px 16px;border-left:4px solid #059669">
+        <div style="font-size:11px;color:#6b7280">Approved</div>
+        <div style="font-size:22px;font-weight:700;color:#065f46">${approved}</div>
+      </div>
+      <div style="flex:1;background:#fef3c7;border-radius:8px;padding:12px 16px;border-left:4px solid #f59e0b">
+        <div style="font-size:11px;color:#6b7280">Pending</div>
+        <div style="font-size:22px;font-weight:700;color:#92400e">${pending}</div>
+      </div>
+    </div>
+
+    <div class="section-title">📅 ${title}</div>
+    <table>
+      <thead><tr>
+        <th>#</th><th>Resource</th><th>Date &amp; Time</th>
+        <th>Purpose</th><th>User</th><th>Status</th>
+      </tr></thead>
+      <tbody>${rows || '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px">No records found</td></tr>'}</tbody>
+    </table>
+  `;
+  downloadPDF(html, `${title.replace(/\s+/g,'_')}.pdf`);
+}
+
+// ── Activity Log PDF ─────────────────────────────────────────────
+export function exportActivityPDF(activities) {
+  const typeColor = { BOOKING: 'badge-cyan', TICKET: 'badge-yellow', USER: 'badge-purple' };
+
+  const rows = activities.map((a, i) => `
+    <tr>
+      <td style="color:#6b7280;font-size:10px;white-space:nowrap">${a.time || ''}</td>
+      <td><span class="badge ${typeColor[a.type] || 'badge-gray'}">${a.type || ''}</span></td>
+      <td>${a.desc || ''}</td>
+      <td>${a.user || ''}</td>
+      <td>${statusBadge(a.status)}</td>
+    </tr>
+  `).join('');
+
+  const bookingCount = activities.filter(a => a.type === 'BOOKING').length;
+  const ticketCount  = activities.filter(a => a.type === 'TICKET').length;
+  const userCount    = activities.filter(a => a.type === 'USER').length;
+
+  const html = `
+    <!-- Summary -->
+    <div style="display:flex;gap:12px;margin-bottom:20px">
+      <div style="flex:1;background:#f0fdfe;border-radius:8px;padding:12px 16px;border-left:4px solid #0ab5d6">
+        <div style="font-size:11px;color:#6b7280">Total</div>
+        <div style="font-size:22px;font-weight:700;color:#0a4a57">${activities.length}</div>
+      </div>
+      <div style="flex:1;background:#dbeafe;border-radius:8px;padding:12px 16px;border-left:4px solid #3b82f6">
+        <div style="font-size:11px;color:#6b7280">Bookings</div>
+        <div style="font-size:22px;font-weight:700;color:#1e40af">${bookingCount}</div>
+      </div>
+      <div style="flex:1;background:#fef3c7;border-radius:8px;padding:12px 16px;border-left:4px solid #f59e0b">
+        <div style="font-size:11px;color:#6b7280">Tickets</div>
+        <div style="font-size:22px;font-weight:700;color:#92400e">${ticketCount}</div>
+      </div>
+      <div style="flex:1;background:#ede9fe;border-radius:8px;padding:12px 16px;border-left:4px solid #8b5cf6">
+        <div style="font-size:11px;color:#6b7280">Users</div>
+        <div style="font-size:22px;font-weight:700;color:#5b21b6">${userCount}</div>
+      </div>
+    </div>
+
+    <div class="section-title">📋 Activity Log</div>
+    <table>
+      <thead><tr>
+        <th>Time</th><th>Type</th><th>Description</th><th>User</th><th>Status</th>
+      </tr></thead>
+      <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:20px">No activities</td></tr>'}</tbody>
+    </table>
+  `;
+  downloadPDF(html, 'Activity_Log.pdf');
+}
