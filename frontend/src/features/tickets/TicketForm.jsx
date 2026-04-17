@@ -79,7 +79,7 @@ export default function TicketForm() {
       if (form.contactDetails) formData.append('contactDetails', form.contactDetails.trim());
       files.forEach(f => formData.append('files', f));
       await createTicket(formData);
-      toast.success('✅ Ticket submitted successfully!');
+      toast.success(' Ticket submitted successfully!');
       navigate('/tickets');
     } catch (err) {
       toast.error(err.response?.data?.message || 'An unexpected error occurred. Please try again.');
@@ -128,10 +128,10 @@ export default function TicketForm() {
               {TICKET_PRIORITIES.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
             {form.priority === 'CRITICAL' && (
-              <p className="text-red-600 text-xs mt-1">⚡ Critical issues are escalated immediately</p>
+              <p className="text-red-600 text-xs mt-1"> Critical issues are escalated immediately</p>
             )}
             {form.priority === 'HIGH' && (
-              <p className="text-orange-500 text-xs mt-1">⚠ High priority — response within 4 hours</p>
+              <p className="text-orange-500 text-xs mt-1"> High priority — response within 4 hours</p>
             )}
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function TicketForm() {
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500 ${showError('title') ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'}`} />
           <div className="flex justify-between items-center mt-1">
             {showError('title')
-              ? <p className="text-red-500 text-xs">⚠ {errors.title}</p>
+              ? <p className="text-red-500 text-xs"> {errors.title}</p>
               : titleLen >= 5 ? <p className="text-green-600 text-xs">✓ Good title</p>
               : <span className="text-gray-400 text-xs">Min. 5 characters</span>}
             <span className={`text-xs ${titleLen > 130 ? 'text-orange-500' : 'text-gray-400'}`}>{titleLen}/150</span>
@@ -161,7 +161,7 @@ export default function TicketForm() {
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 resize-none dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500 ${showError('description') ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'}`} />
           <div className="flex justify-between items-center mt-1">
             {showError('description')
-              ? <p className="text-red-500 text-xs">⚠ {errors.description}</p>
+              ? <p className="text-red-500 text-xs"> {errors.description}</p>
               : descLen >= 20 ? <p className="text-green-600 text-xs">✓ Good description</p>
               : <span className="text-gray-400 text-xs">Min. 20 characters</span>}
             <span className={`text-xs ${descLen > 1800 ? 'text-orange-500' : 'text-gray-400'}`}>{descLen}/2000</span>
@@ -177,7 +177,7 @@ export default function TicketForm() {
             placeholder="Phone number or alternate email for follow-up"
             maxLength={200}
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500 ${showError('contactDetails') ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'}`} />
-          {showError('contactDetails') && <p className="text-red-500 text-xs mt-1">⚠ {errors.contactDetails}</p>}
+          {showError('contactDetails') && <p className="text-red-500 text-xs mt-1"> {errors.contactDetails}</p>}
         </div>
 
         {/* File Attachments */}
@@ -205,7 +205,7 @@ export default function TicketForm() {
             <div className="mt-2 space-y-1">
               {files.map((f, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-lg">
-                  <span>{f.type.startsWith('image/') ? '🖼️' : '📄'}</span>
+                  <span>{f.type.startsWith('image/') ? '' : ''}</span>
                   <span className="flex-1 truncate">{f.name}</span>
                   <span className="text-gray-400">{(f.size / 1024).toFixed(0)}KB</span>
                   <button type="button" onClick={() => removeFile(i)} className="text-red-400 hover:text-red-600 ml-1 font-bold">✕</button>
@@ -221,7 +221,7 @@ export default function TicketForm() {
             className="flex-1 bg-primary-600 text-white py-2.5 rounded-lg hover:bg-primary-700 disabled:opacity-50 font-medium text-sm transition-colors flex items-center justify-center gap-2">
             {loading ? (
               <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Submitting...</>
-            ) : '🎫 Submit Ticket'}
+            ) : ' Submit Ticket'}
           </button>
           <button type="button" onClick={() => navigate('/tickets')}
             className="px-6 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:text-gray-300">

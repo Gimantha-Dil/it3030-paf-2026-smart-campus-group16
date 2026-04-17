@@ -51,7 +51,7 @@ export default function TicketList() {
         <div className="flex gap-2">
           <button onClick={handleExportCSV}
             className="px-3 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 flex items-center gap-1">
-            📊 CSV
+             CSV
           </button>
           {user?.role !== 'TECHNICIAN' && (
             <Link to="/tickets/new"
@@ -106,10 +106,10 @@ export default function TicketList() {
                   <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 flex-wrap">
                     <span>By {t.reporter?.name}</span>
                     <span>{formatDateTime(t.createdAt)}</span>
-                    {t.resource && <span>📍 {t.resource.name}</span>}
-                    {t.assignedTo && <span>👤 {t.assignedTo.name}</span>}
-                    {t.attachmentCount > 0 && <span>📎 {t.attachmentCount}</span>}
-                    {t.commentCount > 0 && <span>💬 {t.commentCount}</span>}
+                    {t.resource && <span> {t.resource.name}</span>}
+                    {t.assignedTo && <span> {t.assignedTo.name}</span>}
+                    {t.attachmentCount > 0 && <span> {t.attachmentCount}</span>}
+                    {t.commentCount > 0 && <span> {t.commentCount}</span>}
                   </div>
                 </div>
               </div>
