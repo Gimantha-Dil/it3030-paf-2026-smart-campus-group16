@@ -137,6 +137,12 @@ public class TicketService {
                 "Ticket #" + ticket.getId() + " status updated",
                 "Your ticket status changed to: " + statusLabel, ticket.getId());
 
+        // Send ticket status update email to reporter
+        emailService.sendTicketStatusUpdateEmail(
+                ticket.getReporter().getEmail(), ticket.getReporter().getName(),
+                ticket.getId(), ticket.getTitle(), statusLabel,
+                dto.getResolutionNotes());
+
         return mapper.toTicketDTO(ticket);
     }
 

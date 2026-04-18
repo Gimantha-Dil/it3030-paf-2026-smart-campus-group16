@@ -91,7 +91,6 @@ export default function NotificationPanel() {
         <div className="space-y-2">
           {notifications.length === 0 && (
             <div className="text-center py-16 text-gray-400 dark:text-gray-600">
-              <p className="text-4xl mb-3">🔔</p>
               <p className="text-sm">No notifications yet.</p>
             </div>
           )}
@@ -123,7 +122,7 @@ export default function NotificationPanel() {
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{n.message}</p>
                   {path && (
                     <p className="text-xs text-primary-500 dark:text-primary-400 mt-1">
-                      Click to view →
+                      Click to view details
                     </p>
                   )}
                 </div>

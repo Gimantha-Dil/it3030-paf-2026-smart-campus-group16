@@ -203,7 +203,9 @@ export function exportBookingsPDF(bookings, title = 'Bookings') {
       </div>
     </div>
 
-    <div class="section-title">📅 ${title}</div>
+
+    <div class="section-title"> ${title}</div>
+
     <table>
       <thead><tr>
         <th>#</th><th>Resource</th><th>Date &amp; Time</th>
@@ -263,4 +265,8 @@ export function exportActivityPDF(activities) {
     </table>
   `;
   downloadPDF(html, 'Activity_Log.pdf');
+
 }
+
+
+
