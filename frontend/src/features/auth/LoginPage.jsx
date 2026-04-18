@@ -28,7 +28,6 @@ function getPasswordStrength(checks) {
 
 function validateName(name) { return /^[a-zA-Z\s'-]{2,80}$/.test(name.trim()); }
 
-// Block non-letter keys for name field
 function handleNameKeyDown(e) {
   const allowed = /^[a-zA-Z\s'\-]$/;
   const ctrl = e.ctrlKey || e.metaKey;
@@ -65,21 +64,18 @@ function RoleSelectionStep({ onSelect }) {
           <p className="text-xs text-gray-400">Rooms &amp; study spaces</p>
           <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Instant</span>
         </button>
-
         <button onClick={() => onSelect('TECHNICIAN')}
           className="flex flex-col items-center gap-1.5 p-3 border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all">
           <p className="font-semibold text-gray-800 text-sm">Technician</p>
           <p className="text-xs text-gray-400">Maintenance &amp; tickets</p>
           <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Approval</span>
         </button>
-
         <button onClick={() => onSelect('LECTURER')}
           className="flex flex-col items-center gap-1.5 p-3 border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all">
           <p className="font-semibold text-gray-800 text-sm">Lecturer</p>
           <p className="text-xs text-gray-400">Halls &amp; exam rooms</p>
           <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Approval</span>
         </button>
-
         <button onClick={() => onSelect('LAB_ASSISTANT')}
           className="flex flex-col items-center gap-1.5 p-3 border-2 border-gray-200 rounded-xl hover:border-teal-400 hover:bg-teal-50 transition-all">
           <p className="font-semibold text-gray-800 text-sm">Lab Assistant</p>
@@ -101,7 +97,7 @@ function PendingApprovalBanner({ name, onGoToLogin }) {
       </div>
       <div>
         <h2 className="text-lg font-semibold text-gray-800">Awaiting Admin Approval</h2>
-        <p className="text-sm text-gray-600 mt-2">Hi <strong>{name}</strong>Your account request has been submitted.</p>
+        <p className="text-sm text-gray-600 mt-2">Hi <strong>{name}</strong> Your account request has been submitted.</p>
         <p className="text-sm text-gray-500 mt-1">An administrator will review and approve or reject your request shortly.</p>
       </div>
       <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-sm text-orange-700">
@@ -196,8 +192,20 @@ export default function LoginPage() {
   const roleLabel = roleLabelMap[selectedRole] || 'User';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 w-full max-w-md">
+    <div
+      className="min-h-screen flex items-center justify-center relative"
+      style={{
+        backgroundImage: 'url(/sliit-campus.jpeg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Login card */}
+      <div className="relative z-10 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 w-full max-w-md">
 
         {/* Header */}
         <div className="text-center mb-6">
@@ -230,7 +238,6 @@ export default function LoginPage() {
         {/* Login / Register form */}
         {(tab === 'login' || (tab === 'register' && registerStep === 'form')) && (
           <>
-            {/* OAuth buttons — login only */}
             {tab === 'login' && (
               <>
                 <div className="space-y-2 mb-5">
@@ -268,7 +275,6 @@ export default function LoginPage() {
               </>
             )}
 
-            {/* Register — role badge */}
             {tab === 'register' && registerStep === 'form' && (
               <div className="flex items-center justify-between mb-4">
                 <button onClick={() => setRegisterStep('role')}
@@ -290,94 +296,66 @@ export default function LoginPage() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-
-              {/* Full Name */}
               {tab === 'register' && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Full Name <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={name}
+                  <input type="text" value={name}
                     onChange={e => setName(e.target.value)}
                     onBlur={() => handleBlur('name')}
                     onKeyDown={handleNameKeyDown}
                     onPaste={handleNamePaste}
-                    placeholder="John Doe"
-                    autoComplete="name"
+                    placeholder="John Doe" autoComplete="name"
                     className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-primary-400 outline-none text-sm dark:bg-gray-800 dark:text-gray-100 ${
-                      showError('name') ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'
-                    }`}
-                  />
+                      showError('name') ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'}`} />
                   {showError('name')
                     ? <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-                    : <p className="text-gray-500 text-xs mt-1">Letters, spaces only</p>
-                  }
+                    : <p className="text-gray-500 text-xs mt-1">Letters, spaces only</p>}
                 </div>
               )}
 
-              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Email Address <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="email"
-                  value={email}
+                <input type="email" value={email}
                   onChange={e => setEmail(e.target.value)}
                   onBlur={() => handleBlur('email')}
-                  placeholder="you@my.sliit.lk"
-                  autoComplete="email"
+                  placeholder="you@my.sliit.lk" autoComplete="email"
                   className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-primary-400 outline-none text-sm dark:bg-gray-800 dark:text-gray-100 ${
-                    showError('email') ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'
-                  }`}
-                />
+                    showError('email') ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'}`} />
                 {showError('email') && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
 
-              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Password <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <input
-                    type={showPw ? 'text' : 'password'}
-                    value={password}
+                  <input type={showPw ? 'text' : 'password'} value={password}
                     onChange={e => setPassword(e.target.value)}
                     onBlur={() => handleBlur('password')}
                     placeholder="••••••••"
                     autoComplete={tab === 'login' ? 'current-password' : 'new-password'}
                     className={`w-full px-3 py-2.5 pr-10 border rounded-lg focus:ring-2 focus:ring-primary-400 outline-none text-sm dark:bg-gray-800 dark:text-gray-100 ${
-                      showError('password') ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'
-                    }`}
-                  />
+                      showError('password') ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'}`} />
                   <button type="button" onClick={() => setShowPw(v => !v)} tabIndex={-1}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                     {showPw ? <EyeOpen /> : <EyeClosed />}
                   </button>
                 </div>
 
-                {/* Password strength — register only */}
                 {tab === 'register' && password && (
                   <div className="mt-2">
-                    {/* Strength bar */}
                     <div className="flex items-center gap-2 mb-1.5">
                       <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div className={`h-full rounded-full transition-all duration-300 ${pwStrength.color} ${pwStrength.width}`} />
                       </div>
                       <span className={`text-xs font-medium ${pwStrength.text}`}>{pwStrength.label}</span>
                     </div>
-                    {/* Requirement checklist */}
                     <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
-                      {[
-                        ['length',  '8+ characters'],
-                        ['upper',   'Uppercase letter'],
-                        ['lower',   'Lowercase letter'],
-                        ['number',  'Number'],
-                        ['special', 'Special character'],
-                      ].map(([k, l]) => (
+                      {[['length','8+ characters'],['upper','Uppercase letter'],['lower','Lowercase letter'],['number','Number'],['special','Special character']].map(([k,l]) => (
                         <span key={k} className={`text-xs flex items-center gap-1 ${pwChecks[k] ? 'text-green-600' : 'text-gray-400'}`}>
                           {pwChecks[k] ? '✓' : '○'} {l}
                         </span>
@@ -391,33 +369,25 @@ export default function LoginPage() {
                 {tab === 'login' && (
                   <div className="text-right mt-1">
                     <button type="button" onClick={() => navigate('/forgot-password')}
-                      className="text-xs text-primary-600 hover:underline">
-                      Forgot password?
-                    </button>
+                      className="text-xs text-primary-600 hover:underline">Forgot password?</button>
                   </div>
                 )}
               </div>
 
-              {/* Confirm Password */}
               {tab === 'register' && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Confirm Password <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <input
-                      type={showConfirm ? 'text' : 'password'}
-                      value={confirmPassword}
+                    <input type={showConfirm ? 'text' : 'password'} value={confirmPassword}
                       onChange={e => setConfirmPassword(e.target.value)}
                       onBlur={() => handleBlur('confirmPassword')}
-                      placeholder="••••••••"
-                      autoComplete="new-password"
+                      placeholder="••••••••" autoComplete="new-password"
                       className={`w-full px-3 py-2.5 pr-10 border rounded-lg focus:ring-2 focus:ring-primary-400 outline-none text-sm dark:bg-gray-800 dark:text-gray-100 ${
                         showError('confirmPassword') ? 'border-red-400 bg-red-50'
                         : confirmPassword && !errors.confirmPassword ? 'border-green-400'
-                        : 'border-gray-300 dark:border-gray-600'
-                      }`}
-                    />
+                        : 'border-gray-300 dark:border-gray-600'}`} />
                     <button type="button" onClick={() => setShowConfirm(v => !v)} tabIndex={-1}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                       {showConfirm ? <EyeOpen /> : <EyeClosed />}
@@ -430,7 +400,6 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {/* Pending warning for staff roles */}
               {tab === 'register' && ['TECHNICIAN', 'LECTURER', 'LAB_ASSISTANT'].includes(selectedRole) && (
                 <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-xs text-orange-700">
                   Your account will be <strong>PENDING</strong> until an admin approves it.
@@ -446,11 +415,9 @@ export default function LoginPage() {
             <p className="text-center text-sm text-gray-500 mt-4">
               {tab === 'login'
                 ? (<>Don&apos;t have an account?{' '}
-                    <button onClick={() => switchTab('register')} className="text-primary-600 font-medium hover:underline">Register</button>
-                  </>)
+                    <button onClick={() => switchTab('register')} className="text-primary-600 font-medium hover:underline">Register</button></>)
                 : (<>Already have an account?{' '}
-                    <button onClick={() => switchTab('login')} className="text-primary-600 font-medium hover:underline">Sign In</button>
-                  </>)
+                    <button onClick={() => switchTab('login')} className="text-primary-600 font-medium hover:underline">Sign In</button></>)
               }
             </p>
           </>
