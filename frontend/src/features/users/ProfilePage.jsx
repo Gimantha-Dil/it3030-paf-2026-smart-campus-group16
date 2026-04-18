@@ -300,11 +300,6 @@ export default function ProfilePage() {
               </div>
             ))}
 
-            <div className="mt-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
-              <p className="text-xs text-primary-600 dark:text-primary-400">Smart Campus v1.0.0</p>
-              <p className="text-xs text-primary-400 dark:text-primary-500 mt-0.5">SLIIT — Faculty of Computing</p>
-            </div>
-
             {/* Danger Zone */}
             <div className="mt-6 border border-red-200 dark:border-red-800 rounded-xl p-4">
               <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-1">Delete Your Account safely</h3>
