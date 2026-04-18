@@ -31,7 +31,7 @@ spring:
             scope: openid, profile, email
           microsoft:
             client-id: ${MICROSOFT_CLIENT_ID:2746f6f2-243d-48ec-9bfa-2d59d7e9c5fd}
-            client-secret: ${MICROSOFT_CLIENT_SECRET:cc3ef75a-1479-45f7-9521-7acd6aa25a96}
+            client-secret: ${MICROSOFT_CLIENT_SECRET:MlC8Q~AWyhXrkiNhJ.B0U5uVlMTgLBT_HdT7XbmK}
             scope: openid, profile, email, User.Read
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
