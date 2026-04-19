@@ -86,9 +86,6 @@ export default function OAuthCallback() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 p-4">
         <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md">
           <div className="text-center mb-5">
-            <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <span className="text-white font-bold text-lg">SC</span>
-            </div>
             <h2 className="text-lg font-bold text-gray-800">Welcome, {userData?.name}! 👋</h2>
             <p className="text-sm text-gray-500 mt-1">How will you use Smart Campus?</p>
           </div>
