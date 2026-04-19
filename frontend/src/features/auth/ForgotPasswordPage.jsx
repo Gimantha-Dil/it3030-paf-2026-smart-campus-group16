@@ -27,7 +27,7 @@ export default function ForgotPasswordPage() {
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Forgot Password</h1>
-          <p className="text-gray-500 text-sm mt-1">Reset your Smart Campus Hub password</p>
+          <p className="text-gray-500 text-sm mt-1">Reset your Smart Campus  password</p>
         </div>
 
         {sent ? (
