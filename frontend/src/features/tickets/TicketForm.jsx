@@ -173,10 +173,19 @@ export default function TicketForm() {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Contact Details <span className="text-gray-400 font-normal">(optional)</span>
           </label>
-          <input type="text" name="contactDetails" value={form.contactDetails} onChange={handleChange} onBlur={() => handleBlur('contactDetails')}
-            placeholder="Phone number or alternate email for follow-up"
-            maxLength={200}
+          <input type="text" name="contactDetails" value={form.contactDetails}
+            onChange={(e) => setForm(prev => ({ ...prev, contactDetails: e.target.value.replace(/\D/g, '') }))}
+            onKeyDown={(e) => {
+              const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
+              const ctrl = e.ctrlKey || e.metaKey;
+              if (!ctrl && !nav.includes(e.key) && !/^\d$/.test(e.key)) e.preventDefault();
+            }}
+            onBlur={() => handleBlur('contactDetails')}
+            placeholder="Phone number for follow-up (numbers only)"
+            maxLength={10}
+            inputMode="numeric"
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500 ${showError('contactDetails') ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'}`} />
+          <p className="text-xs text-gray-400 mt-1">Numbers only (e.g. 0771234567)</p>
           {showError('contactDetails') && <p className="text-red-500 text-xs mt-1"> {errors.contactDetails}</p>}
         </div>
 
