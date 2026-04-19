@@ -203,13 +203,13 @@ function AlertsWidget({ stats }) {
       )}
       {stats.openTickets > 0 && (
         <Link to="/tickets" className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-4 flex items-center gap-3 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors">
-          <div className="w-10 h-10 bg-red-100 dark:bg-red-800 rounded-xl flex items-center justify-center text-xl">🚨</div>
+          <div className="w-10 h-10 bg-red-100 dark:bg-red-800 rounded-xl flex items-center justify-center text-xl"></div>
           <div><p className="text-xl font-bold text-red-700 dark:text-red-400">{stats.openTickets}</p><p className="text-xs text-red-600 dark:text-red-500">Open Tickets</p></div>
         </Link>
       )}
       {stats.pendingStaff > 0 && (
         <Link to="/admin/users" className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-2xl p-4 flex items-center gap-3 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
-          <div className="w-10 h-10 bg-purple-100 dark:bg-purple-800 rounded-xl flex items-center justify-center text-xl">👥</div>
+          <div className="w-10 h-10 bg-purple-100 dark:bg-purple-800 rounded-xl flex items-center justify-center text-xl"></div>
           <div><p className="text-xl font-bold text-purple-700 dark:text-purple-400">{stats.pendingStaff}</p><p className="text-xs text-purple-600 dark:text-purple-500">Staff Approvals</p></div>
         </Link>
       )}
