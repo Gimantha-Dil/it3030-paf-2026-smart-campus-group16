@@ -8,7 +8,8 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { PRIORITY_COLORS, TICKET_STATUS } from '../../utils/constants';
 import { formatDateTime } from '../../utils/dateUtils';
 import { toast } from 'react-toastify';
-import { exportToCSV } from '../../utils/exportUtils';
+import { exportTicketsXLSX } from '../../utils/exportUtils';
+import { exportTicketsPDF } from '../../utils/pdfUtils';
 
 export default function TicketList() {
   const { user } = useAuth();
@@ -28,30 +29,31 @@ export default function TicketList() {
       .finally(() => setLoading(false));
   }, [page, statusFilter]);
 
-  const handleExportCSV = () => {
-    const data = tickets.map(t => ({
-      ID: t.id,
-      Category: t.category || '',
-      Priority: t.priority || '',
-      Status: t.status || '',
-      Description: (t.description || '').substring(0, 100),
-      Reporter: t.reporter?.name || '',
-      'Assigned To': t.assignedTo?.name || '',
-      Resource: t.resource?.name || '',
-      Created: t.createdAt || '',
-    }));
-    exportToCSV(data, 'tickets.csv');
-    toast.success('Tickets exported!');
+  const pageTitle = user?.role === 'TECHNICIAN' ? 'My Assigned Tickets'
+    : user?.role === 'ADMIN' ? 'All Tickets' : 'My Tickets';
+
+  const handleExportXLSX = async () => {
+    await exportTicketsXLSX(tickets, pageTitle);
+    toast.success('Excel exported!');
+  };
+
+  const handleExportPDF = () => {
+    exportTicketsPDF(tickets, pageTitle);
+    toast.success('PDF downloading!');
   };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{user?.role === "TECHNICIAN" ? "My Assigned Tickets" : user?.role === "ADMIN" ? "All Tickets" : "My Tickets"}</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{pageTitle}</h1>
         <div className="flex gap-2">
-          <button onClick={handleExportCSV}
-            className="px-3 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 flex items-center gap-1">
-             CSV
+          <button onClick={handleExportXLSX}
+            className="px-3 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700">
+            Excel
+          </button>
+          <button onClick={handleExportPDF}
+            className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700">
+            PDF
           </button>
           {user?.role !== 'TECHNICIAN' && (
             <Link to="/tickets/new"
@@ -62,7 +64,6 @@ export default function TicketList() {
         </div>
       </div>
 
-      {/* TECHNICIAN info */}
       {user?.role === 'TECHNICIAN' && (
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-4 flex items-center gap-2 text-sm text-blue-700">
           <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -70,7 +71,6 @@ export default function TicketList() {
         </div>
       )}
 
-      {/* Filter bar */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700 p-4 mb-6 flex flex-wrap gap-3 items-center">
         <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Filter:</span>
         {['', ...Object.keys(TICKET_STATUS)].map(s => (
@@ -109,7 +109,7 @@ export default function TicketList() {
                     {t.resource && <span> {t.resource.name}</span>}
                     {t.assignedTo && <span> {t.assignedTo.name}</span>}
                     {t.attachmentCount > 0 && <span> {t.attachmentCount}</span>}
-                    {t.commentCount > 0 && <span> {t.commentCount}</span>}
+                    {t.commentCount > 0 && <span>{t.commentCount}</span>}
                   </div>
                 </div>
               </div>

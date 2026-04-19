@@ -142,7 +142,7 @@ export default function ResourceForm() {
             placeholder="e.g. Main Lecture Hall A"
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 ${showError('name') ? 'border-red-400 bg-red-50' : 'border-gray-300'}`} />
           {showError('name')
-            ? <p className="text-red-500 text-xs mt-1">⚠ {errors.name}</p>
+            ? <p className="text-red-500 text-xs mt-1"> {errors.name}</p>
             : <p className="text-gray-400 text-xs mt-1">Letters, numbers, spaces and basic punctuation only</p>}
         </div>
 
@@ -162,7 +162,7 @@ export default function ResourceForm() {
               onKeyDown={handleNumberKeyDown} inputMode="numeric"
               placeholder="e.g. 50"
               className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 ${showError('capacity') ? 'border-red-400 bg-red-50' : 'border-gray-300'}`} />
-            {showError('capacity') && <p className="text-red-500 text-xs mt-1">⚠ {errors.capacity}</p>}
+            {showError('capacity') && <p className="text-red-500 text-xs mt-1"> {errors.capacity}</p>}
           </div>
         </div>
 
@@ -173,7 +173,7 @@ export default function ResourceForm() {
             onChange={handleChange} onBlur={() => handleBlur('location')}
             placeholder="e.g. Block A, Floor 3"
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 ${showError('location') ? 'border-red-400 bg-red-50' : 'border-gray-300'}`} />
-          {showError('location') && <p className="text-red-500 text-xs mt-1">⚠ {errors.location}</p>}
+          {showError('location') && <p className="text-red-500 text-xs mt-1"> {errors.location}</p>}
         </div>
 
         {/* Description */}
@@ -183,7 +183,7 @@ export default function ResourceForm() {
             rows={3} placeholder="Optional: facilities, equipment, notes..."
             className={`w-full px-3 py-2.5 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-400 resize-none ${showError('description') ? 'border-red-400 bg-red-50' : 'border-gray-300'}`} />
           <div className="flex justify-between mt-1">
-            {showError('description') ? <p className="text-red-500 text-xs">⚠ {errors.description}</p> : <span />}
+            {showError('description') ? <p className="text-red-500 text-xs"> {errors.description}</p> : <span />}
             <span className={`text-xs ${form.description.length > 1800 ? 'text-orange-500' : 'text-gray-400'}`}>
               {form.description.length}/2000
             </span>
@@ -207,10 +207,10 @@ export default function ResourceForm() {
             <button type="button" onClick={() => setClockOpen('start')}
               className={`w-full px-3 py-2.5 border rounded-lg text-sm text-left flex items-center justify-between hover:bg-gray-50 focus:ring-2 focus:ring-primary-400 outline-none transition-colors ${showError('availabilityStart') ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}>
               <span className="flex items-center gap-2">
-                <span>🕐</span>
+                <span></span>
                 <span className="font-medium text-gray-700">{to12h(form.availabilityStart)}</span>
               </span>
-              <span className="text-gray-400 text-xs">▼</span>
+              <span className="text-gray-400 text-xs"></span>
             </button>
             {showError('availabilityStart') && <p className="text-red-500 text-xs mt-1">⚠ {errors.availabilityStart}</p>}
           </div>
@@ -221,10 +221,10 @@ export default function ResourceForm() {
             <button type="button" onClick={() => setClockOpen('end')}
               className={`w-full px-3 py-2.5 border rounded-lg text-sm text-left flex items-center justify-between hover:bg-gray-50 focus:ring-2 focus:ring-primary-400 outline-none transition-colors ${showError('availabilityEnd') ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}>
               <span className="flex items-center gap-2">
-                <span>🕐</span>
+                <span></span>
                 <span className="font-medium text-gray-700">{to12h(form.availabilityEnd)}</span>
               </span>
-              <span className="text-gray-400 text-xs">▼</span>
+              <span className="text-gray-400 text-xs"></span>
             </button>
             {showError('availabilityEnd') && <p className="text-red-500 text-xs mt-1">⚠ {errors.availabilityEnd}</p>}
           </div>
