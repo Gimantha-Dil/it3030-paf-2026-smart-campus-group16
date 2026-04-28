@@ -22,7 +22,14 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100">
+    <div div
+      className="min-h-screen flex items-center justify-center relative"
+      style={{
+        backgroundImage: 'url(/sliit-campus.jpeg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}>
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-6">
